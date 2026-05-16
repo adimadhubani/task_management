@@ -11,8 +11,10 @@ const taskRoutes = require('./routes/taskRoutes');
 const app = express();
 
 // CORS configuration - Allow frontend to connect
+const VERCEL_URL = 'https://task-management-gamma-pink.vercel.app';
+
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  origin: [VERCEL_URL, 'http://localhost:3000', 'http://localhost:3001'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']

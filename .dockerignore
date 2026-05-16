@@ -1,0 +1,22 @@
+node_modules
+npm-debug.log
+.env
+.git
+.gitignore
+README.md
+uploads
+coverage
+.DS_Store
+EOF
+
+# Frontend .dockerignore
+cd /Users/adityakumar/Desktop/task_Management/frontend
+cat > .dockerignore << 'EOF'
+node_modules
+npm-debug.log
+.env
+.git
+.gitignore
+README.md
+build
+.DS_Store

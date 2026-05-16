@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database (Optional - if you want to run locally)
+  postgres:
+    image: postgres:15-alpine
+    container_name: task_postgres
+    environment:
+      POSTGRES_DB: task_management
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/src/models/schema.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - task_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build: ./backend
+    container_name: task_backend
+    environment:
+      NODE_ENV: production
+      PORT: 5001
+      # Database - Use Neon or local postgres
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-task_management}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      # JWT
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRE: 7d
+      # Cloudinary
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+    ports:
+      - "5001:5001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - task_network
+    restart: unless-stopped
+    volumes:
+      - backend_uploads:/app/uploads
+
+  # Frontend
+  frontend:
+    build: ./frontend
+    container_name: task_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - task_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  backend_uploads:
+
+networks:
+  task_network:
+    driver: bridge

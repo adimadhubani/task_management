@@ -78,6 +78,5 @@ jest-results/
 .nyc_output/
 
 # Optional lock files (remove if needed)
-package-lock.json
 yarn.lock
 pnpm-lock.yaml

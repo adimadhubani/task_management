@@ -5,7 +5,7 @@ import axios from 'axios';
 // DEBUG: Check what URL is being used
 const getApiUrl = () => {
   // Check for environment variable
-  const envUrl = process.env.REACT_APP_API_URL;
+  const envUrl = "https://content-education-production-817d.up.railway.app/api";
   
   console.log('=== API URL DEBUG ===');
   console.log('process.env.REACT_APP_API_URL:', envUrl);

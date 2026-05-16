@@ -128,7 +128,7 @@ const updateTask = async (req, res) => {
     }
 
     // Check authorization
-    if (req.user.role !== 'admin' && existingTask.created_by !== req.user.id && existingTask.assigned_to !== user?.id) {
+    if (req.user.role !== 'admin' && existingTask.created_by !== req.user.id && existingTask.assigned_to !== req.user?.id) {
       return res.status(403).json({ error: 'Access denied' });
     }
 

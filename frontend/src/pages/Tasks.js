@@ -68,7 +68,7 @@ const Tasks = () => {
   const handleViewDocuments = async (task) => {
     setSelectedTask(task);
     // Fetch task details with documents
-    const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
+    const API_URL = "https://content-education-production-817d.up.railway.app/api" ||  'http://localhost:5001/api';
     const token = localStorage.getItem('token');
     
     try {

@@ -55,5 +55,5 @@ A full-stack task management application built with MERN stack (MongoDB/PostgreS
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/adimadhubani/task-management-system.git
+git clone https://github.com/adimadhubani/task_management.git
 cd task-management-system

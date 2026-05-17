@@ -103,10 +103,20 @@ const Tasks = () => {
     }
   };
 
-  // Check if user can view task (admin or assigned user or creator)
-  const canViewTask = (task) => {
-    return user?.role === 'admin' || task.created_by === user?.id || task.assigned_to === user?.id;
-  };
+ // Add this new function for edit permission
+const canEditTask = (task) => {
+  return user?.role === 'admin' || task.created_by === user?.id || task.assigned_to === user?.id;
+};
+
+// Add this for delete permission (admin or creator only)
+const canDeleteTask = (task) => {
+  return user?.role === 'admin' || task.created_by === user?.id;
+};
+
+// Keep canViewTask for view-only access if needed
+const canViewTask = (task) => {
+  return user?.role === 'admin' || task.created_by === user?.id || task.assigned_to === user?.id;
+};
 
   return (
     <div>
@@ -261,7 +271,7 @@ const Tasks = () => {
                       )}
                       
                       {/* Edit Task - Admin, creator, or assigned user can edit */}
-                      {(user?.role === 'admin' || task.created_by === user?.id || task.assigned_to === user?.id) && (
+                      {canEditTask(task) && (
                         <Link
                           to={`/tasks/${task.id}/edit`}
                           className="text-indigo-600 hover:text-indigo-900 mr-3"
@@ -272,7 +282,7 @@ const Tasks = () => {
                       )}
                       
                       {/* Delete Task - Admin or creator can delete */}
-                      {(user?.role === 'admin' || task.created_by === user?.id) && (
+                      {canDeleteTask(task) && (
                         <button
                           onClick={() => handleDelete(task.id)}
                           className="text-red-600 hover:text-red-900"
